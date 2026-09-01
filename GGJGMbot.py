@@ -84,7 +84,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await notify_admin(context, update, "/start")
 
     await update.message.reply_text(
-f"""🚀 Welcome to EchoBot 🚀
+f"""🚀 Welcome to GGJGMbot 🚀
 
 Hello @{username}!
 
