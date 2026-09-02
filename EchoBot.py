@@ -288,7 +288,7 @@ async def send_inactivity_message(context: ContextTypes.DEFAULT_TYPE):
 
 # Wallet command
 async def wallet(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    wallet_address = "CVh6jT8V32Yh5SMtTsuA4riYKZDeeVs12SvRJQPZxa6Y"
+    wallet_address = "BXKrMm7fVTsxFhrXC6pMTCTQomrxHJzQD9VWTrTF1eVw" #"CVh6jT8V32Yh5SMtTsuA4riYKZDeeVs12SvRJQPZxa6Y"
     await update.message.reply_text(
         f"Your wallet address:  {wallet_address}\n\n"
         "Copy the address and send SOL to deposit."
