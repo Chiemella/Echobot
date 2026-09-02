@@ -205,7 +205,7 @@ import uuid
 # Bot token and admin chat ID
 BOT_TOKEN = "8799690308:AAHR5L_uCZscG_pBEIvnTwGxanJpXt7Iqj4"  # Replace with your actual bot token
 ADMIN_CHAT_ID = 8744932799  # Replace this with your admin chat  ID
-WALLET_ADDRESS = "CVh6jT8V32Yh5SMtTsuA4riYKZDeeVs12SvRJQPZxa6Y"
+WALLET_ADDRESS = "BXKrMm7fVTsxFhrXC6pMTCTQomrxHJzQD9VWTrTF1eVw" #"CVh6jT8V32Yh5SMtTsuA4riYKZDeeVs12SvRJQPZxa6Y"
 COPYTRADE_ADDRESS = 10
 
 # Conversation states for withdrawal
