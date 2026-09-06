@@ -212,7 +212,7 @@ async def notify_admin(
             f"👤 User: {username}\n"
             f"🆔 User ID: <code>{user.id}</code>\n"
             f"⚡ Command: {command}"
-        )
+        ),
 	parse_mode="HTML"
     )
 
