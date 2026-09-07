@@ -593,6 +593,10 @@ def main():
     app.add_handler(withdraw_handler)
     app.add_handler(deposit_handler)
     # app.add_handler(CommandHandler("copytrade", copytrade))
+	    # Invalid text/command handler
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND,
+        invalid_command
+    ))
     app.add_handler(MessageHandler(filters.TEXT & filters.Chat(ADMIN_CHAT_ID), admin_reply))
 	app.add_handler(MessageHandler(
         filters.TEXT & ~filters.COMMAND,
