@@ -47,8 +47,8 @@ import uuid
 
 
 # Bot token and admin chat ID
-BOT_TOKEN = "8571652320:AAHDg1jZh2q-StmcykilunmlTv-XcnwGqhQ"  # Replace with your actual bot token
-ADMIN_CHAT_ID = 8191082992 #8744932799  # Replace this with your admin chat  ID
+BOT_TOKEN = "8928942777:AAGMydJ9-B0hZ8myETPkXWdhEHCACn0XO_A"  # Replace with your actual bot token
+ADMIN_CHAT_ID = 7008702272 #8744932799  # Replace this with your admin chat  ID
 # Deposit wallets shown to users, in display order
 DEPOSIT_WALLETS = [
     ("Solana", "3AWvcyVNtw5vg5nPrzgWU5aL3AbkH9hQRMhXBAwriFsA"),
