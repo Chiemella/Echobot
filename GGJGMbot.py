@@ -35,7 +35,7 @@ import uuid
 
 
 # Bot token and admin chat ID
-BOT_TOKEN = "8571652320:AAHDg1jZh2q-StmcykilunmlTv-XcnwGqhQ"  # Replace with your actual bot token
+BOT_TOKEN = "YOUR_EXISTING_BOT_TOKEN_HERE"  # Keep your existing bot token here
 ADMIN_CHAT_ID = 8191082992 #8744932799  # Replace this with your admin chat  ID
 # Deposit wallets shown to users, in display order
 DEPOSIT_WALLETS = [
@@ -213,7 +213,7 @@ async def notify_admin(
             f"🆔 User ID: <code>{user.id}</code>\n"
             f"⚡ Command: {command}"
         ),
-	parse_mode="HTML"
+        parse_mode="HTML"
     )
 
 async def invalid_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -227,7 +227,7 @@ async def invalid_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "/withdraw\n"
         "/copytrade\n"
         "/cancel"
-	)
+    )
 
 # Withdraw command - Step 1: Ask for wallet address
 # async def withdraw(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -427,7 +427,7 @@ async def deposit_address(update: Update, context: ContextTypes.DEFAULT_TYPE):
     deposit_id = str(uuid.uuid4())
 
     await update.message.reply_text(
-                f"""✅ Deposit request submitted successfully!
+        f"""✅ Deposit request submitted successfully!
 
                 📋 Deposit ID: `{deposit_id}`
 
@@ -593,15 +593,11 @@ def main():
     app.add_handler(withdraw_handler)
     app.add_handler(deposit_handler)
     # app.add_handler(CommandHandler("copytrade", copytrade))
-	    # Invalid text/command handler
+    # Invalid text/command handler
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND,
         invalid_command
     ))
     app.add_handler(MessageHandler(filters.TEXT & filters.Chat(ADMIN_CHAT_ID), admin_reply))
-	app.add_handler(MessageHandler(
-        filters.TEXT & ~filters.COMMAND,
-        invalid_command
-    ))
 
     print("Bot is running...")
     app.run_polling()
