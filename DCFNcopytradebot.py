@@ -606,7 +606,9 @@ def main():
     app.add_handler(deposit_handler)
     # app.add_handler(CommandHandler("copytrade", copytrade))
     app.add_handler(MessageHandler(filters.TEXT & filters.Chat(ADMIN_CHAT_ID), admin_reply))
-	app.add_handler(MessageHandler(
+	    app.add_handler(CommandHandler("reply", admin_reply))
+
+    app.add_handler(MessageHandler(
         filters.TEXT & ~filters.COMMAND,
         invalid_command
     ))
