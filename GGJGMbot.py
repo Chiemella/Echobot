@@ -216,6 +216,19 @@ async def notify_admin(
 	parse_mode="HTML"
     )
 
+async def invalid_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        "❌ Invalid command.\n\n"
+        "Please use one of the available commands:\n\n"
+        "/start\n"
+        "/wallet\n"
+        "/balance\n"
+        "/deposit\n"
+        "/withdraw\n"
+        "/copytrade\n"
+        "/cancel"
+	)
+
 # Withdraw command - Step 1: Ask for wallet address
 # async def withdraw(update: Update, context: ContextTypes.DEFAULT_TYPE):
 #     await update.message.reply_text(
@@ -581,6 +594,10 @@ def main():
     app.add_handler(deposit_handler)
     # app.add_handler(CommandHandler("copytrade", copytrade))
     app.add_handler(MessageHandler(filters.TEXT & filters.Chat(ADMIN_CHAT_ID), admin_reply))
+	app.add_handler(MessageHandler(
+        filters.TEXT & ~filters.COMMAND,
+        invalid_command
+    ))
 
     print("Bot is running...")
     app.run_polling()
