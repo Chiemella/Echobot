@@ -99,7 +99,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await notify_admin(context, update, "/start")
 
     await update.message.reply_text(
-        f"""🚀 Welcome to GGJGMbot 🚀
+        f"""🚀 Welcome to DCFNcopytradebot 🚀
 
 Hello @{username}!
 
