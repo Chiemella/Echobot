@@ -1,21 +1,4 @@
-# from telegram import Update, ReplyKeyboardRemove
-# from telegram.ext import (
-#     ApplicationBuilder, CommandHandler, MessageHandler, filters,
-#     ContextTypes, ConversationHandler
-# )
-# from datetime import datetime
-# import asyncio
-
-
-# # Bot token and admin chat ID
-# BOT_TOKEN = "8799690308:AAHR5L_uCZscG_pBEIvnTwGxanJpXt7Iqj4"  # Replace with your actual bot token
-# ADMIN_CHAT_ID = 8744932799  # Replace this with your admin chat  ID
-# WALLET_ADDRESS = "CVh6jT8V32Yh5SMtTsuA4riYKZDeeVs12SvRJQPZxa6Y"
-
-# # Conversation states for withdrawal
-# WALLET_ADDRESS, AMOUNT = range(2)
-
-# # In-memory user balances and jobs
+  # In-memory user balances and jobs
 # user_balances = {}
 # user_jobs = {}
 
